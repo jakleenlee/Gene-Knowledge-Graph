@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: ./Dockerfile.next
     platform: linux/amd64
-    image: maayanlab/kg-demo:2.2.9
+    image: jakleenlee/final_project:2.2.9
     x-kubernetes:
       imagePullPolicy: IfNotPresent
       annotations:
@@ -40,14 +40,14 @@ services:
       - 7687:7687
       - 7474:7474
     volumes:
-      - kg-demo-neo4j:/data
+      - final_project-neo4j:/data
 
 volumes:
-  kg-demo-neo4j:
+  final_project-neo4j:
     x-kubernetes:
       size: 25Gi
       class: gp2
 
 x-kubernetes:
-  name: kg-demo
-  namespace: kg-demo
+  name: final_project
+  namespace: final_project
