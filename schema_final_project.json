@@ -3,8 +3,11 @@
         {
             "node": "features",
             "example": [
-                "d__Bacteria",
-                "p__Candidatus Saccharibacteria"
+                "s__Tannerella sp. oral taxon HOT-286",
+                "s__Prevotella denticola",
+                "s__Streptococcus mutans",
+                "t__Neisseria elongata subsp. glycolytica",
+                "t__Prevotella fusca JCM 17724"
             ],
             "display": [
                 {
@@ -1208,32 +1211,32 @@
         }
     ],
     "header": {
-        "header": "Enrichr-KG",
-        "title": "Enrichr-KG",
+        "header": "Jakleen Lee: Final project",
+        "title": "Jakleen Lee: Final project",
         "background": {
             "backgroundColor": "#000",
             "contrastText": "#FFF"
         },
         "icon": {
-            "src": "https://minio.dev.maayanlab.cloud/enrichr-kg/enrichr-kg.png",
-            "favicon": "https://minio.dev.maayanlab.cloud/enrichr-kg/enrichr-kg.png",
-            "faviconTitle": "Enrichr-KG",
-            "alt": "Enrichr-KG",
-            "key": "Enrichr-KG_logo",
+            "src": "https://raw.githubusercontent.com/jakleenlee/Gene-Knowledge-Graph/next14/bacteria.png",
+            "favicon": "https://raw.githubusercontent.com/jakleenlee/Gene-Knowledge-Graph/next14/bacteria.png",
+            "faviconTitle": "Jakleen Lee: Final project",
+            "alt": "Jakleen Lee: Final project",
+            "key": "Jakleen Lee: Final project_logo",
             "width": 100,
             "height": 60
         },
         "tabs": [
             {
                 "endpoint": "/",
-                "label": "Term & Gene Search",
+                "label": "Term & Feature Search",
                 "type": "page",
                 "component": "KnowledgeGraph",
                 "props": {
                     "init_function": "initialize_kg",
                     "initial_query": {
-                        "start": "Gene",
-                        "start_term": "APOE",
+                        "start": "Feature",
+                        "start_term": "s__Streptococcus mutans",
                         "start_field": "label"
                     },
                     "subheader": {
