@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: ./Dockerfile.next
     platform: linux/amd64
-    image: maayanlab/kg-demo:2.2.9
+    image: maayanlab/final_project:2.2.9
     x-kubernetes:
       imagePullPolicy: IfNotPresent
       annotations:
@@ -33,21 +33,21 @@ services:
     environment:
       - NEO4JLABS_PLUGINS='["apoc", "n10s"]'
       - NEO4J_AUTH=${NEXT_PUBLIC_NEO4J_USER}/${NEXT_PUBLIC_NEO4J_PASSWORD}
-      - NEO4J_dbms_memory_heap_max__size=8G
+      - NEO4J_dbms_memory_heap_max__size=4G
       - NEO4J_dbms_memory_heap_initial__size=2G
       - NEO4J_server_config_strict__validation_enabled=false
     ports:
       - 7687:7687
       - 7474:7474
     volumes:
-      - kg-demo-neo4j:/data
+      - final_project-neo4j:/data
 
 volumes:
-  kg-demo-neo4j:
+  final_project-neo4j:
     x-kubernetes:
       size: 25Gi
       class: gp2
 
 x-kubernetes:
-  name: kg-demo
-  namespace: kg-demo
+  name: final_project
+  namespace: final_project

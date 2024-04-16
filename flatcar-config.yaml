@@ -1,0 +1,84 @@
+# NOTE: this file should be converted to ignition.json which can be used with a Flatcar OS
+# docker run --rm -i quay.io/coreos/butane:latest < flatcar-config.yaml > flatcar-config.ignition.json
+variant: flatcar
+version: 1.0.0
+passwd:
+  users:
+  - name: core
+    ssh_authorized_keys:
+    - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEfhSSquYfwMc66S0ekqySeVWSUbjPL/yv/ZAoniaXQL leej11@local.local
+systemd:
+  units:
+  - name: application.service
+    enabled: true
+    contents: |
+      [Unit]
+      Description=Minimalist docker-compose example
+      [Service]
+      ExecStart=/opt/bin/docker-compose -f /home/core/docker-compose.yaml up
+      [Install]
+      WantedBy=multi-user.target
+storage:
+  files:
+  - path: /etc/profile.d/opt_bin.sh
+    mode: 0755
+    contents:
+      inline: |
+        export PATH=$PATH:/opt/bin
+  - path: /opt/bin/docker-compose
+    mode: 0755
+    contents:
+      source: https://github.com/docker/compose/releases/download/v2.24.2/docker-compose-linux-x86_64
+      verification:
+        hash: sha512-dbb485b512b885de15ff92c24d3ca1b0f46d62bf5dbcd166fd286f545652fa673e4988cfd43a708f7ecfea34ac92538d119c4625e7b3dbb3bb006277f76f9823
+  - path: /home/core/.env
+    mode: 0644
+    user:
+      name: core
+    group:
+      name: core
+    contents:
+      inline: |
+        # private vars go here
+  - path: /home/core/docker-compose.yaml
+    mode: 0644
+    user:
+      name: core
+    group:
+      name: core
+    contents:
+      # your docker-compose.yaml goes here, modify as necessary
+      inline: |
+        version: '3'
+        services:
+          traefik:
+            image: traefik:v2.11
+            command:
+            - "--api.insecure=true"
+            - "--providers.docker=true"
+            - "--providers.docker.exposedbydefault=false"
+            - "--entrypoints.web.address=:80"
+            - "--entrypoints.websecure.address=:443"
+            - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+            - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+            - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
+            - "--certificatesresolvers.letsencrypt.acme.email=8103be9b-a7e5-4e03-ae61-ae2904b9406cjakleen.lee@icahn.mssm.edu"
+            - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+            ports:
+            - "80:80"
+            - "443:443"
+            volumes:
+            - "./letsencrypt:/letsencrypt"
+            - "/var/run/docker.sock:/var/run/docker.sock:ro"
+          web:
+            image: nginx
+            restart: unless-stopped
+            ports:
+            - "8080:80"
+            labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.web.rule=PathPrefix(`/`)"
+            - "traefik.http.routers.web.entrypoints=web"
+            - "traefik.http.routers.websecure.rule=Host(`leejmaayanapp.duckdns.org`)"
+            - "traefik.http.routers.websecure.tls.certresolver=letsencrypt"
+            - "traefik.http.routers.websecure.entrypoints=websecure"
