@@ -54,10 +54,11 @@
     "zod_utilz": "^0.7.3"
   },
   "devDependencies": {
-    "@types/node": "^17.0.31",
+    "@types/node": "17.0.45",
+    "@types/react": "18.2.78",
     "eslint": "8.14.0",
     "eslint-config-next": "^14.1.0",
     "ts-node": "^10.9.1",
-    "typescript": "^4.6.4"
+    "typescript": "4.9.5"
   }
 }
