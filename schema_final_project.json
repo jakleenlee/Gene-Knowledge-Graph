@@ -1235,7 +1235,7 @@
                 "props": {
                     "init_function": "initialize_kg",
                     "initial_query": {
-                        "start": "Feature",
+                        "start": "features",
                         "start_term": "s__Streptococcus mutans",
                         "start_field": "label"
                     },
